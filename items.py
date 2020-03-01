@@ -17,7 +17,7 @@ class Demo3Item(scrapy.Item):
 
 
 class Book(scrapy.Item):
-    id = scrapy.Field('')
+    _id = scrapy.Field('')
     hot = scrapy.Field('')
     u_time = scrapy.Field('')
     category = scrapy.Field('')
@@ -26,11 +26,16 @@ class Book(scrapy.Item):
     book_desc = scrapy.Field('')
     status = scrapy.Field('')
     last_chapter = scrapy.Field('')
+    last_chapter_id = scrapy.Field('')
+    first_chapter_id = scrapy.Field('')
+    
     cover = scrapy.Field('')
+    link = scrapy.Field('')
 class Chapter(scrapy.Item):
     book_id=scrapy.Field()
-    chapter_id=scrapy.Field()
+    _id=scrapy.Field()
     chapter_name=scrapy.Field()
+    content=scrapy.Field()
 
 class MeiZi(scrapy.Item):
     imgUrl = scrapy.Field()

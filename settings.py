@@ -14,7 +14,12 @@ BOT_NAME = 'demo3'
 
 SPIDER_MODULES = ['demo3.spiders']
 NEWSPIDER_MODULE = 'demo3.spiders'
-DEPTH_LIMIT = 4
+# DEPTH_PRIORITY = 1
+# SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
+# SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
+DEPTH_PRIORITY = 0
+SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleLifoDiskQueue'
+SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.LifoMemoryQueue'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.109 Safari/537.36'
@@ -28,13 +33,13 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY =0
+DOWNLOAD_DELAY = 0.25
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-# COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 # TELNETCONSOLE_ENABLED = False
@@ -50,9 +55,11 @@ DOWNLOAD_DELAY =0
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'demo3.middlewares.MyCustomDownloaderMiddleware': 543,
-# }
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,
+    'demo3.pipelines.RotateUserAgentMiddleware': 400
+
+}
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
@@ -63,19 +70,16 @@ DOWNLOAD_DELAY =0
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    #'scrapy.pipelines.images.ImagesPipeline': 2,
-    #'demo3.pipelines.PiaoHuaPipeline': 1
+    # 'scrapy.pipelines.images.ImagesPipeline': 2,
+    # 'demo3.pipelines.PiaoHuaPipeline': 1
     'demo3.pipelines.CrawlerScrapyPipeline': 1
 }
-IMAGES_URLS_FIELD = "imgUrl"
-project_dir = os.path.abspath(os.path.dirname(__file__))
-IMAGES_STORE = os.path.join(project_dir, "books")
-DEFAULT_REQUEST_HEADERS = {
-    'accept': 'image/webp,*/*;q=0.8',
-    'accept-language': 'zh-CN,zh;q=0.8',
+# DEFAULT_REQUEST_HEADERS = {
+# 'accept': 'image/webp,*/*;q=0.8',
+# 'accept-language': 'zh-CN,zh;q=0.8',
 
-    'user-agent': 'Mozilla/5.0 (Windows NT 6.3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
-}
+# 'user-agent': 'Mozilla/5.0 (Windows NT 6.3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
+# }
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 # AUTOTHROTTLE_ENABLED = True
@@ -98,8 +102,10 @@ DEFAULT_REQUEST_HEADERS = {
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 # Mysql数据库的配置信息
 MYSQL_HOST = '120.27.244.128'
-MYSQL_DBNAME ='book'  # 数据库名字，请修改
+MYSQL_DBNAME = 'book'  # 数据库名字，请修改
 MYSQL_USER = 'root'  # 数据库账号，请修改
-MYSQL_PASSWD = '123456'  # 数据库密码，请修改
+MYSQL_PASSWD = 'lx123456zx'  # 数据库密码，请修改
 
 MYSQL_PORT = 3306  # 数据库端口，在dbhelper中使用
+
+REDIS_PASSWD='zx222lx'
